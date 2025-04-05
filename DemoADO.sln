@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DemoADO.DB", "DemoADO.DB\DemoADO.DB.sqlproj", "{593928ED-0786-4CE7-B21E-B77EE728826E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoADO", "DemoADO\DemoADO.csproj", "{74573BF8-70B6-4382-BFF5-6A9AF4F9CA59}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{593928ED-0786-4CE7-B21E-B77EE728826E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593928ED-0786-4CE7-B21E-B77EE728826E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593928ED-0786-4CE7-B21E-B77EE728826E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{593928ED-0786-4CE7-B21E-B77EE728826E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593928ED-0786-4CE7-B21E-B77EE728826E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593928ED-0786-4CE7-B21E-B77EE728826E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{74573BF8-70B6-4382-BFF5-6A9AF4F9CA59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74573BF8-70B6-4382-BFF5-6A9AF4F9CA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74573BF8-70B6-4382-BFF5-6A9AF4F9CA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74573BF8-70B6-4382-BFF5-6A9AF4F9CA59}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90F3CB01-96AA-4C1D-9C0D-371E94C8A0EE}
+	EndGlobalSection
+EndGlobal
