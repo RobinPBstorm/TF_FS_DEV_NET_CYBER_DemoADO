@@ -40,6 +40,7 @@ namespace DemoADO.Repositories
             return trainers;
         }
 
+        
         public Trainer? GetById(int trainerId) {
             Trainer? trainer = null;
 
@@ -132,7 +133,7 @@ namespace DemoADO.Repositories
                 SqlParameter birthDateParam = new SqlParameter()
                 {
                     ParameterName = "BirthDate",
-                    Value = trainer.BirthDate
+                    Value = trainer.BirthDate is null ? DBNull.Value : trainer.BirthDate
                 };
 
                 command.Parameters.Add(firstNameParam);
