@@ -119,6 +119,38 @@ namespace DemoADO
 			//         Student updatedStudent1 = studentRepository.Update(student1);
 
 			studentRepository.Delete(3);
+			#endregion
+
+			#region Procédure stockee
+			string nouvelleSection = "Surnaturel";
+
+			using (SqlConnection connection = new SqlConnection()) {
+				connection.ConnectionString = connectionString;
+
+				using (SqlCommand command = connection.CreateCommand()) {
+					command.CommandText = "[dbo].[AddSection]";
+					command.CommandType = CommandType.StoredProcedure;
+
+					// paramètre d'entrée
+					command.Parameters.AddWithValue("@Section_Name", nouvelleSection);
+
+					// paramètre de sortie
+					SqlParameter outputSectionId = new SqlParameter()
+					{
+						ParameterName = "@Section_Id",
+						Value = 0,
+						Direction = ParameterDirection.Output,
+					};
+					command.Parameters.Add(outputSectionId);
+
+					connection.Open();
+					command.ExecuteNonQuery();
+					connection.Close();
+
+                    Console.WriteLine("Id de la nouvelle section: " + outputSectionId.Value);
+				}
+			}
+
             #endregion
         }
     }
