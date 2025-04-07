@@ -80,48 +80,50 @@ namespace DemoADO
 					Console.WriteLine($"{trainer.Id} {trainer.LastName} {trainer.FirstName}");
 				}
 			}*/
-			#endregion
-			#region exercice
-			// Pour chaque étudiant afficher son ID, Nom et son Prénom
-			StudentRepository studentRepository = new StudentRepository(connectionString);
+            #endregion
+            #region exercice
+            // Pour chaque étudiant afficher son ID, Nom et son Prénom
+            StudentRepository studentRepository = new StudentRepository(connectionString);
 
-			foreach (Student student in studentRepository.GetAll())
-			{
-				Console.WriteLine($"{student.Id} {student.LastName} {student.FirstName}");
-			}
+            foreach (Student student in studentRepository.GetAll())
+            {
+                Console.WriteLine($"{student.Id} {student.LastName} {student.FirstName}");
+            }
 
-			// Afficher la moyenne de l'ensemble des étudiants
-			Console.WriteLine(studentRepository.GetYearResultAverage());
-			#endregion
+            // Afficher la moyenne de l'ensemble des étudiants
+            Console.WriteLine(studentRepository.GetYearResultAverage());
+            #endregion
 
-			#region Demo insert
-			//TrainerRepository trainerRepository = new TrainerRepository(connectionString);
-			//Trainer newTrainer = new Trainer(-1, "Philippe", "Haerens", new DateTime(1997, 9, 9), true);
-			//Trainer created = trainerRepository.Create(newTrainer);
-			//         Console.WriteLine("New trainer: " + created.Id);
-			#endregion
+            #region Demo insert
+            //TrainerRepository trainerRepository = new TrainerRepository(connectionString);
+            //Trainer newTrainer = new Trainer(-1, "Philippe", "Haerens", new DateTime(1997, 9, 9), true);
+            //Trainer created = trainerRepository.Create(newTrainer);
+            //         Console.WriteLine("New trainer: " + created.Id);
+            #endregion
 
-			#region Exercise Insert, update et delete
-			//         Student student1 = new Student() { 
-			//	Active = true,
-			//	FirstName = "Hello",
-			//	LastName = "World",
-			//	SectionId = 2,
-			//	BirthDate = DateTime.Now,
-			//	YearResult = 11
-			//};
+            #region Exercise Insert, update et delete
+            //         Student student1 = new Student() { 
+            //	Active = true,
+            //	FirstName = "Hello",
+            //	LastName = "World",
+            //	SectionId = 2,
+            //	BirthDate = DateTime.Now,
+            //	YearResult = 11
+            //};
 
-			//Student createdStudent1 = studentRepository.Create(student1);
-			//Console.WriteLine("New student: " + createdStudent1.Id);
+            //Student createdStudent1 = studentRepository.Create(student1);
+            //Console.WriteLine("New student: " + createdStudent1.Id);
 
-			//student1.Id = 3;
-			//student1.FirstName = "Bonjour";
-			//         Student updatedStudent1 = studentRepository.Update(student1);
+            //student1.Id = 3;
+            //student1.FirstName = "Bonjour";
+            //         Student updatedStudent1 = studentRepository.Update(student1);
 
-			studentRepository.Delete(3);
-			#endregion
+            studentRepository.Delete(3);
+            #endregion
 
-			#region Procédure stockee
+            #region Procédure stockee
+            #region Démo
+            /*
 			string nouvelleSection = "Surnaturel";
 
 			using (SqlConnection connection = new SqlConnection()) {
@@ -149,8 +151,67 @@ namespace DemoADO
 
                     Console.WriteLine("Id de la nouvelle section: " + outputSectionId.Value);
 				}
-			}
+			}*/
+            #endregion
 
+            #region Exercices
+            // Appelez la procédure pour changer de « Section » l’étudiant vous représentant
+            int studentId = 2;
+            int newSectionId = 3;
+
+            // récupération de l'étudiant
+            Student? studentToUpdate = studentRepository.GetById(studentId);
+
+            if (studentToUpdate != null)
+            {
+                // appeler la procedure
+                using (SqlConnection connection = new SqlConnection())
+                {
+                    connection.ConnectionString = connectionString;
+
+                    using (SqlCommand command = connection.CreateCommand())
+                    {
+                        // prepare command
+                        command.CommandText = "[dbo].[UpdateStudent]";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // params
+                        command.Parameters.AddWithValue("@Student_Id", studentToUpdate.Id);
+                        command.Parameters.AddWithValue("@Section_Id", newSectionId);
+                        command.Parameters.AddWithValue("@Year_Result", studentToUpdate.YearResult);
+
+                        // executer
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+            }
+
+            // Appelez la procédure pour supprimer votre voisin de la base de données
+            int studentIdToDelete = 1;
+
+            // appeler la procedure
+            using (SqlConnection connection = new SqlConnection())
+            {
+                connection.ConnectionString = connectionString;
+
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    // prepare command
+                    command.CommandText = "[dbo].[DeleteStudent]";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Student_Id", studentIdToDelete);
+
+                    // executer
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+
+            #endregion
             #endregion
         }
     }

@@ -16,9 +16,4 @@ BEGIN
 		
 		SET @Section_Id = SCOPE_IDENTITY();
 	END
-
-	INSERT INTO [dbo].[Section] ([SectionName])
-	VALUES (@Section_Name);
-
-	SET @Section_Id = SCOPE_IDENTITY();
 END
