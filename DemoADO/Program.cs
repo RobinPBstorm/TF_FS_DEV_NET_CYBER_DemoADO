@@ -92,13 +92,33 @@ namespace DemoADO
 
 			// Afficher la moyenne de l'ensemble des étudiants
 			Console.WriteLine(studentRepository.GetYearResultAverage());
-            #endregion
+			#endregion
 
-            #region Demo insert
-			TrainerRepository trainerRepository = new TrainerRepository(connectionString);
-			Trainer newTrainer = new Trainer(-1, "Philippe", "Haerens", new DateTime(1997, 9, 9), true);
-			Trainer created = trainerRepository.Create(newTrainer);
-            Console.WriteLine("New trainer: " + created.Id);
+			#region Demo insert
+			//TrainerRepository trainerRepository = new TrainerRepository(connectionString);
+			//Trainer newTrainer = new Trainer(-1, "Philippe", "Haerens", new DateTime(1997, 9, 9), true);
+			//Trainer created = trainerRepository.Create(newTrainer);
+			//         Console.WriteLine("New trainer: " + created.Id);
+			#endregion
+
+			#region Exercise Insert, update et delete
+			//         Student student1 = new Student() { 
+			//	Active = true,
+			//	FirstName = "Hello",
+			//	LastName = "World",
+			//	SectionId = 2,
+			//	BirthDate = DateTime.Now,
+			//	YearResult = 11
+			//};
+
+			//Student createdStudent1 = studentRepository.Create(student1);
+			//Console.WriteLine("New student: " + createdStudent1.Id);
+
+			//student1.Id = 3;
+			//student1.FirstName = "Bonjour";
+			//         Student updatedStudent1 = studentRepository.Update(student1);
+
+			studentRepository.Delete(3);
             #endregion
         }
     }
