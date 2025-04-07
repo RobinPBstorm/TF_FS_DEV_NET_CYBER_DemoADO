@@ -6,12 +6,12 @@ using System.Data;
 namespace DemoADO
 {
     internal class Program
-	{
-		static void Main(string[] args)
-		{
-			string connectionString = "Data Source=Desktop-hk4b100\\dataviz;Initial Catalog=DemoADO;User ID=sa;Encrypt=True;Trust Server Certificate=True";
-			#region demo SQL Connection et sélection de données
-			/*
+    {
+        static void Main(string[] args)
+        {
+            string connectionString = "Server=localhost;User Id=SA;Password=Some4Complex#Password;Trust Server Certificate=True;Database=TFGOSFQ25L008DEVNET_ado";
+            #region demo SQL Connection et sélection de données
+            /*
 			using (SqlConnection connection = new SqlConnection())
 			{
 				connection.ConnectionString = connectionString;
@@ -212,6 +212,86 @@ namespace DemoADO
             }
 
             #endregion
+            #endregion
+
+            #region Transaction
+            List<Trainer> trainers = new List<Trainer>() {
+                new Trainer(-1, "Dipper", "Pines", null, true),
+                new Trainer(-1, "Mabbel", "Pines", null, true),
+                new Trainer(-1, "Bill", "Cypher", null, true)
+            };
+
+            using (SqlConnection connection = new SqlConnection())
+            {
+                connection.ConnectionString = connectionString;
+
+                connection.Open();
+
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (Trainer trainer in trainers)
+                        {
+                            using (SqlCommand command = connection.CreateCommand())
+                            {
+                                command.CommandText = "insert into [dbo].[Trainer] ([FirstName], [LastName], [BirthDate]) " +
+                                    "values (@FirstName, @LastName, @BirthDate)";
+
+                                command.Transaction = transaction;
+
+                                command.Parameters.AddWithValue("FirstName", trainer.FirstName);
+                                command.Parameters.AddWithValue("LastName", trainer.LastName);
+                                command.Parameters.AddWithValue("BirthDate", trainer.BirthDate is null ? DBNull.Value : trainer.BirthDate);
+
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        transaction.Rollback();
+                    }
+                }
+                connection.Close();
+            }
+            #endregion
+
+            #region Abstract factory
+            List<Course> courses = new List<Course>();
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                string search = "S";
+
+                using (IDbCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM Course WHERE name LIKE @Search";
+
+                    IDbDataParameter paramSearch = cmd.CreateParameter();
+                    paramSearch.ParameterName = "Search";
+                    paramSearch.Value = "%" + search + "%";
+                    cmd.Parameters.Add(paramSearch);
+
+                    connection.Open();
+                    using (IDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Course course = new Course()
+                            {
+                                Id = (int)reader["Id"],
+                                Name = reader["Name"] is DBNull ? null : (string)reader["Name"]
+                            };
+                            courses.Add(course);
+                        }
+                    }
+                    connection.Close();
+                }
+                Console.WriteLine("Total: " + courses.Count);
+            }
             #endregion
         }
     }
