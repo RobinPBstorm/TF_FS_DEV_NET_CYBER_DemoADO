@@ -9,7 +9,7 @@ namespace DemoADO
 	{
 		static void Main(string[] args)
 		{
-			string connectionString = "Server=localhost;User Id=SA;Password=Some4Complex#Password;Trust Server Certificate=True;Database=TFGOSFQ25L008DEVNET_ado";
+			string connectionString = "Data Source=Desktop-hk4b100\\dataviz;Initial Catalog=DemoADO;User ID=sa;Encrypt=True;Trust Server Certificate=True";
 			#region demo SQL Connection et sélection de données
 			/*
 			using (SqlConnection connection = new SqlConnection())
