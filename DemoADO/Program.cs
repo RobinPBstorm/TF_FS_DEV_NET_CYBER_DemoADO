@@ -9,7 +9,7 @@ namespace DemoADO
 	{
 		static void Main(string[] args)
 		{
-			string connectionString = "Data Source=Desktop-hk4b100\\dataviz;Initial Catalog=DemoADO;User ID=sa;Encrypt=True;Trust Server Certificate=True";
+			string connectionString = "Server=localhost;User Id=SA;Password=Some4Complex#Password;Trust Server Certificate=True;Database=TFGOSFQ25L008DEVNET_ado";
 			#region demo SQL Connection et sélection de données
 			/*
 			using (SqlConnection connection = new SqlConnection())
@@ -92,7 +92,14 @@ namespace DemoADO
 
 			// Afficher la moyenne de l'ensemble des étudiants
 			Console.WriteLine(studentRepository.GetYearResultAverage());
-			#endregion
-		}
-	}
+            #endregion
+
+            #region Demo insert
+			TrainerRepository trainerRepository = new TrainerRepository(connectionString);
+			Trainer newTrainer = new Trainer(-1, "Philippe", "Haerens", new DateTime(1997, 9, 9), true);
+			Trainer created = trainerRepository.Create(newTrainer);
+            Console.WriteLine("New trainer: " + created.Id);
+            #endregion
+        }
+    }
 }
